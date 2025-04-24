@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Police_AI : MonoBehaviour
 {
@@ -25,9 +26,20 @@ public class Police_AI : MonoBehaviour
 
     private bool isHurtTriggered = false; // So we only trigger Hurt once
 
+    private CameraShake cameraShake;  // Reference to CameraShake script
+
+    private SpriteRenderer spriteRenderer; //change police sprite color
+    private int hitCount = 0;
+
+    private Rigidbody2D rb;  // Reference to the Rigidbody2D for knockback
+
+
     void Start()
     {
-        originalScale = transform.localScale;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
+
+
     }
 
     void Update()
@@ -89,25 +101,50 @@ public class Police_AI : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // If the player collides with police and police not yet hurt
-        if (collision.gameObject.CompareTag("Bullet") && !isHurtTriggered)
+        /* // If the player collides with police and police not yet hurt
+         if (collision.gameObject.CompareTag("Bullet") && !isHurtTriggered)
+         {
+             isHurtTriggered = true;
+
+             // Stop attacking before triggering hurt
+             animator.SetBool("IsAttacking", false);
+
+             // Trigger the hurt animation
+             animator.SetTrigger("Hurt");
+
+             // Disable this AI script so shooting stops
+             this.enabled = false;
+
+             // Destroy the police after a delay
+             StartCoroutine(DestroyAfterHurt());
+         }*/
+
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            isHurtTriggered = true;
+            hitCount++;
 
-            // Stop attacking before triggering hurt
-            animator.SetBool("IsAttacking", false);
+            if (hitCount == 1)
+            {
+                spriteRenderer.color = new Color(1f, 0.6f, 0.6f); // Even lighter red (pinkish)
+            }
+            else if (hitCount == 2)
+            {
+                spriteRenderer.color = new Color(0.6f, 0f, 0f); // Darker red
+            }
+            else if (hitCount >= 3)
+            {
+                // Trigger Hurt and Death
+                animator.SetBool("IsAttacking", false);
+                animator.SetTrigger("Hurt");
+                this.enabled = false;
+                StartCoroutine(DestroyAfterHurt());
+            }
+           
 
-            // Trigger the hurt animation
-            animator.SetTrigger("Hurt");
-
-            // Disable this AI script so shooting stops
-            this.enabled = false;
-
-            // Destroy the police after a delay
-            StartCoroutine(DestroyAfterHurt());
         }
     }
 
+    
     private IEnumerator DestroyAfterHurt()
     {
         // Wait for the set delay

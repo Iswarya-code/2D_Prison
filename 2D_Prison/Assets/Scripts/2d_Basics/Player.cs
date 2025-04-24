@@ -33,6 +33,9 @@ public class Player : MonoBehaviour
     public float climbSpeed = 5f;
     private bool isClimbing = false;
 
+    public bool isFacingRight = true; // Track the player's facing direction
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -223,11 +226,15 @@ public class Player : MonoBehaviour
         {
             gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
             //gameObject.transform.Rotate(Vector3.up, 0f);
+            isFacingRight = true; // Player is facing right
+
         }
         else
         {
             //gameObject.transform.Rotate(Vector3.up, 180f);
             gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+            isFacingRight = false; // Player is facing left
+
         }
     }
 

@@ -9,6 +9,8 @@ public class Shooting : MonoBehaviour
     public Transform FirePoint;
     public GameObject homeScreen; // Assign in the Inspector
 
+    public Player player; // Reference to the player to get the facing direction
+
 
 
 
@@ -22,7 +24,11 @@ public class Shooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        if (player == null)
+        {
+            player = GetComponent<Player>(); // Make sure the Player script is attached
+        }
+
     }
 
     // Update is called once per frame
@@ -66,13 +72,17 @@ public class Shooting : MonoBehaviour
 
     }
 
-   public  void Shoot()
+    public  void Shoot()
     {
+        float direction = player.isFacingRight ? 1f : -1f; // 1 for right, -1 for left
+
         SoundManager.instance.PlayShootSound();
 
         GameObject tempBullet = Instantiate(Bullet, transform.position, Quaternion.identity);
         Rigidbody2D rb = tempBullet.GetComponent<Rigidbody2D>();
-        rb.velocity = transform.right * BulletSpeed; // Adjust direction and speed as needed
+       // rb.velocity = transform.right * BulletSpeed; // Adjust direction and speed as needed
+        rb.velocity = new Vector2(direction * BulletSpeed, 0f); // Set direction based on player
+
 
     }
 }
