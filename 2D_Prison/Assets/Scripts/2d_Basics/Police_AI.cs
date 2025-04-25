@@ -26,7 +26,6 @@ public class Police_AI : MonoBehaviour
 
     private bool isHurtTriggered = false; // So we only trigger Hurt once
 
-    private CameraShake cameraShake;  // Reference to CameraShake script
 
     private SpriteRenderer spriteRenderer; //change police sprite color
     private int hitCount = 0;
@@ -37,8 +36,7 @@ public class Police_AI : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
-
+        originalScale = transform.localScale;
 
     }
 
