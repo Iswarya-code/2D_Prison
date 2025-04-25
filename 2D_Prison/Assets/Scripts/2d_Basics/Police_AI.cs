@@ -92,8 +92,20 @@ public class Police_AI : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            float direction = transform.localScale.x; // 1 for right, -1 for left
+            float direction = transform.localScale.x > 0 ? 1f : -1f;
             rb.velocity = new Vector2(bulletSpeed * direction, 0);
+            //  SpriteRenderer bulletSprite = bullet.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer bulletSprite = bullet.GetComponent<SpriteRenderer>(); // Get from root
+
+
+            // Flip bullet sprite if shooting left
+            if (bulletSprite != null)
+            {
+                bulletSprite.flipX = direction < 0;
+                // bulletSprite.flipX = true;
+            }
+
+
         }
     }
 

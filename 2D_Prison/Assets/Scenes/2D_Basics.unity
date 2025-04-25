@@ -3961,7 +3961,7 @@ MonoBehaviour:
   animator: {fileID: 854028151}
   player: {fileID: 2029550630}
   bulletSpawn: {fileID: 2125729906}
-  attackRange: 10
+  attackRange: 9
   bulletSpeed: 75
   shootCooldown: 1
   bulletPrefab: {fileID: 274119277294046782, guid: 1abd5c247504b5b43962f05668c4986b, type: 3}

@@ -74,15 +74,27 @@ public class Shooting : MonoBehaviour
 
     public  void Shoot()
     {
+        // Determine direction based on player's facing direction
         float direction = player.isFacingRight ? 1f : -1f; // 1 for right, -1 for left
 
+        // Play shoot sound
         SoundManager.instance.PlayShootSound();
 
-        GameObject tempBullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-        Rigidbody2D rb = tempBullet.GetComponent<Rigidbody2D>();
-       // rb.velocity = transform.right * BulletSpeed; // Adjust direction and speed as needed
-        rb.velocity = new Vector2(direction * BulletSpeed, 0f); // Set direction based on player
+        // Instantiate the bullet at the fire point
+        GameObject tempBullet = Instantiate(Bullet, FirePoint.position, Quaternion.identity);
 
+        // Get Rigidbody2D of the bullet to set velocity
+        Rigidbody2D rb = tempBullet.GetComponent<Rigidbody2D>();
+
+        // Set bullet velocity based on direction
+        rb.velocity = new Vector2(direction * BulletSpeed, 0f);
+
+        // Get the bullet's SpriteRenderer and flip the sprite based on the direction
+        SpriteRenderer bulletSprite = tempBullet.GetComponent<SpriteRenderer>();
+        if (bulletSprite != null)
+        {
+            bulletSprite.flipX = direction < 0; // Flip the sprite if facing left
+        }
 
     }
 }
