@@ -5,18 +5,22 @@ using UnityEngine.Rendering.Universal;
 
 public class TorchLight : MonoBehaviour
 {
-    public GameObject playerLight; // Assign the Point Light 2D from the Player
+    public Light2D playerTorchLight; // Reference to the player's torch light (Point Light 2D)
+    public Light2D globalLight; // Reference to the Global Light 2D
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
+        // Check if the player collided with the torch
         if (other.CompareTag("Player"))
         {
-            if (playerLight != null)
-            {
-                playerLight.GetComponent<Light2D>().enabled = true;
-            }
+            // Disable the global lighting to darken the scene
+            globalLight.intensity = 0;
 
-            Destroy(gameObject); // Remove the torch object
+            // Enable the player's torchlight
+            playerTorchLight.intensity = 1;
+
+            // Destroy or deactivate the torch object
+            Destroy(gameObject); // Or other logic to disable the torch
         }
     }
 }

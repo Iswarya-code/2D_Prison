@@ -12,6 +12,8 @@ TagManager:
   - Heart
   - Obstacle
   - PoliceBullet
+  - Torch
+  - Out
   layers:
   - Default
   - TransparentFX

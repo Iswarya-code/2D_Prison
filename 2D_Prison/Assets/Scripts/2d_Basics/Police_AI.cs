@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.Rendering.Universal; // Required for accessing Global Light 2D
 
 
 public class Police_AI : MonoBehaviour
@@ -34,7 +33,6 @@ public class Police_AI : MonoBehaviour
     private SpriteRenderer spriteRenderer; //change police sprite color
     private int hitCount = 0;
 
-    private Light2D globalLightComponent; // Reference to the Light2D component
 
 
     void Start()
@@ -42,11 +40,7 @@ public class Police_AI : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalScale = transform.localScale;
 
-        // Get the Light2D component from the Global Light
-        if (globalLight != null)
-        {
-            globalLightComponent = globalLight.GetComponent<Light2D>();
-        }
+       
     }
 
     void Update()
@@ -168,13 +162,6 @@ public class Police_AI : MonoBehaviour
     {
         // Wait for the set delay
         yield return new WaitForSeconds(destroyDelay);
-
-
-        // Darken the entire game by reducing the light intensity
-        if (globalLightComponent != null)
-        {
-            globalLightComponent.intensity = 0f; // Set intensity to 0 to make the scene dark
-        }
 
         // Destroy the police GameObject
         Destroy(gameObject);

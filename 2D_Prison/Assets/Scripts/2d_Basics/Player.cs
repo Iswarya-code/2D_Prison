@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
 
     public bool isFacingRight = true; // Track the player's facing direction
 
+    public GameObject EnjoyYourDay;
 
 
     // Start is called before the first frame update
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         gameOverScreen.SetActive(false);
+        EnjoyYourDay.SetActive(false);
         score = 0;
 
         // Hide all life icons at the start
@@ -175,6 +177,12 @@ public class Player : MonoBehaviour
         {
             TakeDamage(1); // Reduce one life
             Destroy(collision.gameObject); // Destroy the bullet after hit
+        }
+
+        if(collision.gameObject.CompareTag("Out"))
+        {
+            Destroy(collision.gameObject);
+            EnjoyYourDay.SetActive(true);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
